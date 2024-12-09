@@ -17,18 +17,5 @@ li {
     width: 35px;
     height: 35px;
     cursor: pointer;
-   /* background-image: url("img/coolicon.svg");
-    background-repeat: no-repeat;
-    background-position: center; */
   }
 
-.svg-class {
-  background-image: url("img/coolicon_red.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-#field {
-  height: 130px;
-  width: 300px;
-}
