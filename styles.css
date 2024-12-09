@@ -1,0 +1,21 @@
+li {
+    margin-bottom: 10px;
+  }
+  
+  li button {
+    display: inline-block;
+    margin-left: 10px;
+  }
+  
+  .error {
+    background-color: red;
+  }
+  
+  .like {
+    display: flex;
+    gap: 5px;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+  }
+
