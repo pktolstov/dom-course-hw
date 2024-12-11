@@ -11,7 +11,8 @@ const comments = [
 const initAddLike = () => {
     const findAllComments = document.querySelectorAll(".like");
     for (const comment of findAllComments) {
-        comment.addEventListener('click', () => {
+        comment.addEventListener('click', (event) => {
+            event.stopPropagation();
             const commentIndex = comment.dataset.index;
             let islike = true;
             let countLike = 1;
@@ -38,12 +39,34 @@ const initAddLike = () => {
     }
 }
 
+
+const initEditComment = () => {
+    const findAllComments = document.querySelectorAll(".text-comment");
+    //console.log(findAllComments);
+    for (const comment of findAllComments) {
+        comment.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const editInput = document.getElementById("field");
+            const commentIndex = comment.dataset.text;
+            commentHtml = comments[commentIndex].text
+            console.log(comments[commentIndex].text);
+            editInput.innerText = commentHtml
+            console.log(editInput);
+            renderComments();
+
+        })
+
+    }
+}
+
+
+
 const renderComments = () => {
     const comentsHtml = comments.map((comment, index) => {
         //return `<li><span>${comment.text}</span></br><button  data-index="${index}" class="like">Нравится комментарий (${comment.numberOfLikes})</button></li>`
         //<img src=`${comment.islike ? 'like.svg' : 'dislike.svg'}`>
-        return `<li><span>${comment.text}</span></br>
-        <div data-index="${index}"class="like">
+        return `<li><span data-text="${index}" class="text-comment">${comment.text}</span></br>
+        <div data-index="${index}" class="like">
             <svg data-svg="${index}-svg" width="20px" height="20px" xmlns="http://www.w3.org/2000/svg">
             <image href="${comment.islike ? 'img/dislike.svg' : 'img/like.svg'}" height="20px" width="20px" />
             </svg><span>${comment.numberOfLikes}</span>
@@ -51,6 +74,7 @@ const renderComments = () => {
     }).join("");
     list.innerHTML = comentsHtml;
     initAddLike();
+    initEditComment();
 
 }
 
@@ -63,7 +87,8 @@ renderComments();
 
 
 
-button.addEventListener("click", () => {
+button.addEventListener("click", (event) => {
+    event.stopPropagation();
     input.classList.remove("error");
 
     if (input.value === "") {
@@ -77,4 +102,5 @@ button.addEventListener("click", () => {
     //   const oldHtml = list.innerHTML;
     //   list.innerHTML = oldHtml + `<li><span>${input.value}</span><button>удалить</button></li>`;
     input.value = "";
+
 });
