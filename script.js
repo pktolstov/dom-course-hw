@@ -96,7 +96,7 @@ button.addEventListener("click", (event) => {
         return;
     }
 
-    comments.push({ text: input.value, islike: false, numberOfLikes: 0 });
+    comments.push({ text: input.value.replaceAll("<","&lt;").replaceAll(">","&gt;"), islike: false, numberOfLikes: 0 });
     renderComments();
 
     //   const oldHtml = list.innerHTML;
