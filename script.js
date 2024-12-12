@@ -12,7 +12,7 @@ const initAddLike = () => {
     const findAllComments = document.querySelectorAll(".like");
     for (const comment of findAllComments) {
         comment.addEventListener('click', (event) => {
-            event.stopPropagation();
+            //event.stopPropagation();
             const commentIndex = comment.dataset.index;
             let islike = true;
             let countLike = 1;
@@ -42,16 +42,13 @@ const initAddLike = () => {
 
 const initEditComment = () => {
     const findAllComments = document.querySelectorAll(".text-comment");
-    //console.log(findAllComments);
     for (const comment of findAllComments) {
         comment.addEventListener('click', (event) => {
             event.stopPropagation();
-            const editInput = document.getElementById("field");
             const commentIndex = comment.dataset.text;
             commentHtml = comments[commentIndex].text
-            console.log(comments[commentIndex].text);
-            editInput.innerText = commentHtml
-            console.log(editInput);
+            //console.log(comments[commentIndex].text);
+            input.value = commentHtml
             renderComments();
 
         })
@@ -88,7 +85,7 @@ renderComments();
 
 
 button.addEventListener("click", (event) => {
-    event.stopPropagation();
+    //event.stopPropagation();
     input.classList.remove("error");
 
     if (input.value === "") {
@@ -102,5 +99,5 @@ button.addEventListener("click", (event) => {
     //   const oldHtml = list.innerHTML;
     //   list.innerHTML = oldHtml + `<li><span>${input.value}</span><button>удалить</button></li>`;
     input.value = "";
-
+  
 });
