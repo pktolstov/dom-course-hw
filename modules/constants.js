@@ -1,0 +1,5 @@
+export const addCommentButton = document.querySelector('.add-form-button')
+export const inputCommentField = document.querySelector('.add-form-text')
+export const inputNameComment = document.querySelector('.add-form-name')
+export const listOfComments = document.querySelector('.comments')
+export const currentDate = new Date()
