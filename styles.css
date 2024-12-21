@@ -63,6 +63,10 @@ body {
   .comment-text {
     font-size: 32px;
   }
+  .quote {
+    font-style: italic;
+    font-size: 24px;
+  }
 
   .likes {
     display: flex;
