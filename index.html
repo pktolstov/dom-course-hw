@@ -1,33 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
+    <head>
+        <title>Проект "Комменты"</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="styles.css" />
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comment line progect</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
+    <body>
+        <div class="container">
+            <ul class="comments">
+                <li class="comment">
+                    <div class="comment-header">
+                        <div>Глеб Фокин</div>
+                        <div>12.02.22 12:18</div>
+                    </div>
+                    <div class="comment-body">
+                        <div class="comment-text">
+                            Это будет первый комментарий на этой странице
+                        </div>
+                    </div>
+                    <div class="comment-footer">
+                        <div class="likes">
+                            <span class="likes-counter">3</span>
+                            <button class="like-button"></button>
+                        </div>
+                    </div>
+                </li>
+                <li class="comment">
+                    <div class="comment-header">
+                        <div>Варвара Н.</div>
+                        <div>13.02.22 19:22</div>
+                    </div>
+                    <div class="comment-body">
+                        <div class="comment-text">
+                            Мне нравится как оформлена эта страница! ❤
+                        </div>
+                    </div>
+                    <div class="comment-footer">
+                        <div class="likes">
+                            <span class="likes-counter">75</span>
+                            <button class="like-button -active-like"></button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="add-form">
+                <input
+                    type="text"
+                    class="add-form-name"
+                    placeholder="Введите ваше имя"
+                />
+                <textarea
+                    type="textarea"
+                    class="add-form-text"
+                    placeholder="Введите ваш коментарий"
+                    rows="4"
+                ></textarea>
+                <div class="add-form-row">
+                    <button class="add-form-button">Написать</button>
+                </div>
+            </div>
+        </div>
+    </body>
 
-<body>
-    <div>
-        <h1>Комментарии</h1>
-        <ul id="list">
-            <!-- <li><span>MY COMMENT</span></br>
-                <div class="like">
-                    <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg">
-                        <image href="img/coolicon.svg" height="20px" width="20px" />
-                      </svg><span>1</span>
-                </div> 
-            </li> -->
-        </ul>
-
-        <h3>Оставить комментарий</h3>
-        <textarea id="field" rows="5" cols="33"></textarea>
-            <br /><br />
-            <button type="button" id="add">Добавить</button>
-    </div>
-
-    <script src="script.js"></script>
-</body>
-
+    <script type="module" src="./index.js"></script>
 </html>
