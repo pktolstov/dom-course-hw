@@ -1,5 +1,5 @@
-import { comments } from './comments.js'
-import { renderComments } from './renderComments.js'
+import { comments, updateComments } from './comments.js'
+import { renderComments, getComments } from './renderComments.js'
 import { inputCommentField } from './constants.js'
 
 export const initAddLike = () => {
@@ -11,14 +11,23 @@ export const initAddLike = () => {
             const commentIndex = like.dataset.index
             let islike = true
             let countLike = 1
-            if (comments[commentIndex].islike) {
+            // version with local comments, not with API
+            // if (comments[commentIndex].islike) {
+            //     islike = false
+            //     countLike = -1
+            // }
+            // comments[commentIndex].islike = islike
+            // comments[commentIndex].numberOfLikes += countLike
+            // inputCommentField.value = ''
+
+            // version with API
+            if (comments[commentIndex].isLiked) {
                 islike = false
                 countLike = -1
             }
-            comments[commentIndex].islike = islike
-            comments[commentIndex].numberOfLikes += countLike
+            comments[commentIndex].isLiked = islike
+            comments[commentIndex].likes += countLike
             inputCommentField.value = ''
-
             renderComments()
         })
     }
@@ -32,7 +41,7 @@ export const initEditComment = () => {
             event.stopPropagation()
             const commentIndex = comment.dataset.index
             let commentHtml = ''
-            commentHtml = ` start### ${comments[commentIndex].name}   
+            commentHtml = ` start### ${comments[commentIndex].author.name}   
         ${comments[commentIndex].text} end###`
             inputCommentField.value = commentHtml
             renderComments()
