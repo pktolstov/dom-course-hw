@@ -1,4 +1,8 @@
-import { addCommentButton, inputNameComment, inputCommentField } from './constants.js'
+import {
+    addCommentButton,
+    inputNameComment,
+    inputCommentField,
+} from './constants.js'
 import { updateComments } from './comments.js'
 import { replaceSymbols } from './replaceSymbols.js'
 import { renderComments, getComments } from './renderComments.js'
@@ -35,10 +39,13 @@ export const addComment = () => {
             isliked: false,
             likes: 0,
         }
-        fetch('https://webdev-hw-api.vercel.app/api/v1/gleb-fokin/comments', {
-            method: 'POST',
-            body: JSON.stringify(commentToApi),
-        })
+        fetch(
+            'https://webdev-hw-api.vercel.app/api/v1/pavel-tolstov/comments',
+            {
+                method: 'POST',
+                body: JSON.stringify(commentToApi),
+            },
+        )
             .then((response) => {
                 return response.json()
             })
@@ -46,7 +53,6 @@ export const addComment = () => {
                 //console.log(data.result)
                 updateComments(data.comments)
                 getComments()
-                //renderComments()
             })
         //console.log(JSON.stringify(commentToApi))
         // comments.push({
@@ -56,7 +62,7 @@ export const addComment = () => {
         //     islike: false,
         //     numberOfLikes: 0,
         //})
-        renderComments()
+        //renderComments()
 
         inputCommentField.value = ''
         inputNameComment.value = ''

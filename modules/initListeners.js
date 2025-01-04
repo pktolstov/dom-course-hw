@@ -1,5 +1,5 @@
-import { comments, updateComments } from './comments.js'
-import { renderComments, getComments } from './renderComments.js'
+import { comments } from './comments.js'
+import { getComments, renderComments } from './renderComments.js'
 import { inputCommentField } from './constants.js'
 
 export const initAddLike = () => {
@@ -28,6 +28,7 @@ export const initAddLike = () => {
             comments[commentIndex].isLiked = islike
             comments[commentIndex].likes += countLike
             inputCommentField.value = ''
+            //getComments()
             renderComments()
         })
     }
@@ -35,7 +36,6 @@ export const initAddLike = () => {
 
 export const initEditComment = () => {
     const findAllComments = document.querySelectorAll('.comment')
-    //console.log(findAllComments);
     for (const comment of findAllComments) {
         comment.addEventListener('click', (event) => {
             event.stopPropagation()
@@ -44,7 +44,7 @@ export const initEditComment = () => {
             commentHtml = ` start### ${comments[commentIndex].author.name}   
         ${comments[commentIndex].text} end###`
             inputCommentField.value = commentHtml
-            renderComments()
+            getComments()
         })
     }
 }
