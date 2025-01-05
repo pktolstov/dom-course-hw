@@ -1,5 +1,5 @@
-import { renderComments } from './modules/renderComments.js'
+import { getComments } from './modules/renderComments.js'
 import { addComment } from './modules/addComment.js'
 
-renderComments()
+getComments()
 addComment()

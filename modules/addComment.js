@@ -1,10 +1,11 @@
-import { addCommentButton } from './constants.js'
-import { inputCommentField } from './constants.js'
-import { inputNameComment } from './constants.js'
-import { currentDate } from './constants.js'
-import { comments } from './comments.js'
+import {
+    addCommentButton,
+    inputNameComment,
+    inputCommentField,
+} from './constants.js'
+import { updateComments } from './comments.js'
 import { replaceSymbols } from './replaceSymbols.js'
-import { renderComments } from './renderComments.js'
+import { renderComments, getComments } from './renderComments.js'
 
 export const addComment = () => {
     addCommentButton.addEventListener('click', (event) => {
@@ -20,21 +21,48 @@ export const addComment = () => {
             inputCommentField.classList.add('add-form-empty')
             return
         }
-        let currentDateFormat =
-            currentDate.toLocaleDateString('ru-RU') +
-            ' ' +
-            currentDate.toLocaleTimeString('ru-RU', {
-                hour: '2-digit',
-                minute: '2-digit',
-            })
-        comments.push({
+
+        // Version when local comment storage
+        // let currentDateFormat =
+        //     currentDate.toLocaleDateString('ru-RU') +
+        //     ' ' +
+        //     currentDate.toLocaleTimeString('ru-RU', {
+        //         hour: '2-digit',
+        //         minute: '2-digit',
+        //     })
+
+        let commentToApi = {
             name: inputNameComment.value,
-            date: currentDateFormat,
+            // we don't need specify the date. API does it anyway
+            //date: currentDateFormat,
             text: replaceSymbols(inputCommentField.value),
-            islike: false,
-            numberOfLikes: 0,
-        })
-        renderComments()
+            isliked: false,
+            likes: 0,
+        }
+        fetch(
+            'https://webdev-hw-api.vercel.app/api/v1/pavel-tolstov/comments',
+            {
+                method: 'POST',
+                body: JSON.stringify(commentToApi),
+            },
+        )
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+                //console.log(data.result)
+                updateComments(data.comments)
+                getComments()
+            })
+        //console.log(JSON.stringify(commentToApi))
+        // comments.push({
+        //     name: inputNameComment.value,
+        //     date: currentDateFormat,
+        //     text: replaceSymbols(inputCommentField.value),
+        //     islike: false,
+        //     numberOfLikes: 0,
+        //})
+        //renderComments()
 
         inputCommentField.value = ''
         inputNameComment.value = ''
