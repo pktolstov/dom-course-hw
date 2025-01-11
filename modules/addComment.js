@@ -2,10 +2,11 @@ import {
     addCommentButton,
     inputNameComment,
     inputCommentField,
+    addFormBlock,
 } from './constants.js'
-import { updateComments } from './comments.js'
+import { loadCommentText, listOfComments } from './constants.js'
 import { replaceSymbols } from './replaceSymbols.js'
-import { renderComments, getComments } from './renderComments.js'
+import { getComments } from './renderComments.js'
 
 export const addComment = () => {
     addCommentButton.addEventListener('click', (event) => {
@@ -39,32 +40,22 @@ export const addComment = () => {
             isliked: false,
             likes: 0,
         }
+        addFormBlock.style.display = 'none'
+        loadCommentText.textContent = 'Комментарий публикуется...'
+        listOfComments.before(loadCommentText)
         fetch(
             'https://webdev-hw-api.vercel.app/api/v1/pavel-tolstov/comments',
             {
                 method: 'POST',
                 body: JSON.stringify(commentToApi),
             },
-        )
-            .then((response) => {
-                return response.json()
+        ).then(() => {
+            return getComments().then(() => {
+                loadCommentText.remove()
+                addFormBlock.style.display = 'flex'
+                inputCommentField.value = ''
+                inputNameComment.value = ''
             })
-            .then((data) => {
-                //console.log(data.result)
-                updateComments(data.comments)
-                getComments()
-            })
-        //console.log(JSON.stringify(commentToApi))
-        // comments.push({
-        //     name: inputNameComment.value,
-        //     date: currentDateFormat,
-        //     text: replaceSymbols(inputCommentField.value),
-        //     islike: false,
-        //     numberOfLikes: 0,
-        //})
-        //renderComments()
-
-        inputCommentField.value = ''
-        inputNameComment.value = ''
+        })
     })
 }
