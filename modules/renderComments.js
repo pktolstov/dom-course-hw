@@ -4,7 +4,7 @@ import { listOfComments } from './constants.js'
 import { comments, updateComments } from './comments.js'
 
 export const getComments = () => {
-    fetch('https://webdev-hw-api.vercel.app/api/v1/pavel-tolstov/comments', {
+    return fetch('https://webdev-hw-api.vercel.app/api/v1/pavel-tolstov/comments', {
         method: 'GET',
     })
         .then((response) => {

@@ -1,6 +1,6 @@
 import { comments } from './comments.js'
 import { getComments, renderComments } from './renderComments.js'
-import { inputCommentField } from './constants.js'
+import { inputCommentField, delay } from './constants.js'
 
 export const initAddLike = () => {
     const findLikeButtons = document.querySelectorAll('.like-button')
@@ -11,25 +11,19 @@ export const initAddLike = () => {
             const commentIndex = like.dataset.index
             let islike = true
             let countLike = 1
-            // version with local comments, not with API
-            // if (comments[commentIndex].islike) {
-            //     islike = false
-            //     countLike = -1
-            // }
-            // comments[commentIndex].islike = islike
-            // comments[commentIndex].numberOfLikes += countLike
-            // inputCommentField.value = ''
 
             // version with API
             if (comments[commentIndex].isLiked) {
                 islike = false
                 countLike = -1
             }
-            comments[commentIndex].isLiked = islike
-            comments[commentIndex].likes += countLike
-            inputCommentField.value = ''
-            //getComments()
-            renderComments()
+            like.classList.add('-loading-like')
+            delay(2000).then(() => {
+                comments[commentIndex].isLiked = islike
+                comments[commentIndex].likes += countLike
+                renderComments()
+                inputCommentField.value = ''
+            }) 
         })
     }
 }
