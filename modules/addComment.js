@@ -23,15 +23,6 @@ export const addComment = () => {
             return
         }
 
-        // Version when local comment storage
-        // let currentDateFormat =
-        //     currentDate.toLocaleDateString('ru-RU') +
-        //     ' ' +
-        //     currentDate.toLocaleTimeString('ru-RU', {
-        //         hour: '2-digit',
-        //         minute: '2-digit',
-        //     })
-
         let commentToApi = {
             name: inputNameComment.value,
             // we don't need specify the date. API does it anyway
@@ -40,9 +31,10 @@ export const addComment = () => {
             isliked: false,
             likes: 0,
         }
-        addFormBlock.style.display = 'none'
         loadCommentText.textContent = 'Комментарий публикуется...'
-        listOfComments.before(loadCommentText)
+        addFormBlock.before(loadCommentText)
+        addFormBlock.style.display = 'none'
+
         fetch(
             'https://webdev-hw-api.vercel.app/api/v1/pavel-tolstov/comments',
             {
