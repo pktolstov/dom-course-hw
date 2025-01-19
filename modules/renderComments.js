@@ -4,16 +4,45 @@ import { listOfComments } from './constants.js'
 import { comments, updateComments } from './comments.js'
 
 export const getComments = () => {
-    return fetch('https://webdev-hw-api.vercel.app/api/v1/pavel-tolstov/comments', {
-        method: 'GET',
-    })
+    return fetch(
+        'https://webdev-hw-api.vercel.app/api/v1/pavel-tolstov/comments',
+        {
+            method: 'GET',
+        },
+    )
         .then((response) => {
-            return response.json()
+            if (response.status === 200) {
+                return response.json().then((data) => {
+                    updateComments(data.comments)
+                    renderComments()
+                })
+            } else {
+                {
+                    if (response.status === 500) {
+                        throw new Error('Сервер недоступен')
+                    }
+                }
+            }
         })
-        .then((data) => {
-            updateComments(data.comments)
-            renderComments()
+        .catch((error) => {
+            if (!navigator.onLine) {
+                // Обработка отсутствия интернет-соединения
+                alert('Вы оффлайн. Проверьте соединение')
+            } else {
+                if (error.message === 'Сервер недоступен') {
+                    alert(
+                        'Сервер недоступен. Ошибка 500. Попробуйте повторить запрос подзднее',
+                    )
+                }
+            }
         })
+    // .then((response) => {
+    //     return response.json()
+    // })
+    // .then((data) => {
+    //     updateComments(data.comments)
+    //     renderComments()
+    // })
 }
 
 export const renderComments = () => {
