@@ -1,6 +1,18 @@
 import { comments } from './comments.js'
-import { getComments, renderComments } from './renderComments.js'
-import { inputCommentField, delay } from './constants.js'
+import { loginApi, updateToken, updatedName,updateLoginStatus } from './api.js'
+import {
+    getComments,
+    renderComments,
+    renderLogin,
+    renderForm,
+} from './renderComments.js'
+import {
+    inputCommentField,
+    delay,
+    loginLink,
+    loginButton,
+    loginPage,
+} from './constants.js'
 
 export const initAddLike = () => {
     const findLikeButtons = document.querySelectorAll('.like-button')
@@ -23,7 +35,7 @@ export const initAddLike = () => {
                 comments[commentIndex].likes += countLike
                 renderComments()
                 inputCommentField.value = ''
-            }) 
+            })
         })
     }
 }
@@ -41,4 +53,32 @@ export const initEditComment = () => {
             getComments()
         })
     }
+}
+
+export const initLoginButton = (loginButton) => {
+    loginButton.addEventListener('click', (login) => {
+        let authData = loginPage.querySelectorAll('.add-login-name')
+        let jDate = JSON.stringify({
+            login: authData[0].value,
+            password: authData[1].value,
+        })
+        //console.log(jDate);
+        loginApi(authData[0].value, authData[1].value).then((data) => {
+            updateToken(data.user.token)
+            updatedName(data.user.name)
+            updateLoginStatus(true)
+            loginPage.remove()
+            getComments()
+            renderForm()
+            //console.log(data.user.token)
+        })
+    })
+}
+
+export const initLoginLink = () => {
+    loginLink.addEventListener('click', (transition) => {
+        renderLogin()
+        const loginButton = document.getElementById('login-button')
+        initLoginButton(loginButton)
+    })
 }
