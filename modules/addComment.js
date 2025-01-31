@@ -1,21 +1,15 @@
 import {
-    addCommentButton,
     inputNameComment,
     inputCommentField,
     addFormBlock,
 } from './constants.js'
-import { loadCommentText, listOfComments } from './constants.js'
-import { replaceSymbols } from './replaceSymbols.js'
-import { getComments } from './renderComments.js'
+import { loadCommentText} from './constants.js'
+//import { replaceSymbols } from './replaceSymbols.js'
+import { getComments, renderForm } from './renderComments.js'
+import { postApi,loginStatus } from './api.js'
 
 export const postComment = (commentToApi) => {
-    return fetch(
-        'https://webdev-hw-api.vercel.app/api/v1/pavel-tolstov/comments',
-        {
-            method: 'POST',
-            body: JSON.stringify(commentToApi),
-        },
-    )
+    return postApi(commentToApi)
         .then((response) => {
             if (response.status === 201) {
                 return getComments().then(() => {
@@ -47,35 +41,16 @@ export const postComment = (commentToApi) => {
                 )
                 return getComments().then(() => {
                     loadCommentText.remove()
-                    addFormBlock.style.display = 'flex'
-                    if (inputNameComment.value.length <= 2) {
-                        inputNameComment.classList.add('add-form-empty')
-                    }
-                    if (inputNameComment.value.length <= 2) {
-                        inputCommentField.classList.add('add-form-empty')
-                    }
+                    if (loginStatus) {
+                        renderForm()
+                        if (commentToApi.text.length <= 2) {
+                            let inputCommentField = document.querySelector('.add-form-text')
+                            inputCommentField.value = commentToApi.text
+                            inputCommentField.classList.add('add-form-empty')
+                        }
+                      }
+
                 })
             }
         })
-}
-export const addComment = () => {
-    addCommentButton.addEventListener('click', (event) => {
-        event.stopPropagation()
-        inputCommentField.classList.remove('add-form-empty')
-        inputNameComment.classList.remove('add-form-empty')
-        let commentToApi = {
-            name: inputNameComment.value,
-            // we don't need specify the date. API does it anyway
-            //date: currentDateFormat,
-            text: replaceSymbols(inputCommentField.value),
-            isliked: false,
-            likes: 0,
-            forceError: true,
-        }
-        loadCommentText.textContent = 'Комментарий публикуется...'
-        addFormBlock.before(loadCommentText)
-        addFormBlock.style.display = 'none'
-
-        postComment(commentToApi)
-    })
 }

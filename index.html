@@ -9,24 +9,16 @@
     <body>
         <div class="container">
             <!-- <p>Идет загрузка комментариев...</p> -->
-            <ul class="comments">
-            </ul>
-            <div class="add-form">
-                <input
-                    type="text"
-                    class="add-form-name"
-                    placeholder="Введите ваше имя"
-                />
-                <textarea
-                    type="textarea"
-                    class="add-form-text"
-                    placeholder="Введите ваш коментарий"
-                    rows="4"
-                ></textarea>
-                <div class="add-form-row">
-                    <button class="add-form-button">Написать</button>
-                </div>
+            <ul class="comments"></ul>
+            <div class="auth-form">
+                <a href="#"  id="login-link" class="auth-form__link"
+                    >Чтобы добавить комментарий, авторизуйтесь</a
+                >
             </div>
+
+            <div id="user-comment"></div>
+            <div id="user-login"></div>
+            <div id="user-regisration"></div>
         </div>
     </body>
 

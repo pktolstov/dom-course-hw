@@ -1,20 +1,29 @@
 import { initAddLike } from './initListeners.js'
 import { initEditComment } from './initListeners.js'
-import { listOfComments } from './constants.js'
+import {
+    listOfComments,
+    loginPage,
+    registrationPage,
+    commentForm,
+    loadCommentText,
+    loginLink,
+} from './constants.js'
 import { comments, updateComments } from './comments.js'
+import { getApi, userName,loginStatus, updateLoginStatus } from './api.js'
+import { replaceSymbols } from './replaceSymbols.js'
+import { postComment } from './addComment.js'
 
 export const getComments = () => {
-    return fetch(
-        'https://webdev-hw-api.vercel.app/api/v1/pavel-tolstov/comments',
-        {
-            method: 'GET',
-        },
-    )
+    return getApi()
         .then((response) => {
             if (response.status === 200) {
                 return response.json().then((data) => {
                     updateComments(data.comments)
                     renderComments()
+                    console.log(loginStatus);
+                    if (loginStatus) {
+                        renderForm()
+                      }
                 })
             } else {
                 {
@@ -35,14 +44,9 @@ export const getComments = () => {
                     )
                 }
             }
+        }).finally(error => {
+
         })
-    // .then((response) => {
-    //     return response.json()
-    // })
-    // .then((data) => {
-    //     updateComments(data.comments)
-    //     renderComments()
-    // })
 }
 
 export const renderComments = () => {
@@ -78,4 +82,95 @@ export const renderComments = () => {
     listOfComments.innerHTML = comentsHtml
     initAddLike()
     initEditComment()
+}
+
+export const renderLogin = () => {
+    loginPage.innerHTML = `
+  <div class="add-form">
+  <input
+      type="text"
+      class="add-login-name"
+      placeholder="Введите логин"
+  />
+  <input
+      type="text"
+      class="add-login-name"
+      placeholder="Введите пароль"
+      rows="4"
+  ></input>
+  <div class="add-form-row">
+      <button id="login-button" class="add-form-button">Войти</button>
+  </div>
+  `
+}
+
+export const renderReg = () => {
+    registrationPage.innerHTML = `
+    <div class="add-form">
+      <input
+        type="text"
+        class="add-login-name"
+        placeholder="Введите Имя"
+      />
+      <input
+        type="text"
+        class="add-login-name"
+        placeholder="Введите логин"
+        rows="4"
+      ></input>
+      <input
+        type="text"
+        class="add-login-name"
+        placeholder="Введите пароль"
+        rows="4"
+      ></input>
+      <div class="add-form-row">
+        <button class="add-form-button">Регистрация</button>
+      </div>
+    </div>
+  `
+}
+
+export const renderForm = () => {
+    loginLink.remove(loginLink)
+    commentForm.innerHTML = `
+    <div id="user-comment" class="add-form">
+      <p
+        type="text"
+        class="add-form-name"
+        placeholder="Введите ваше имя">${userName}
+      </p>
+      <textarea
+        type="textarea"
+        class="add-form-text"
+        placeholder="Введите ваш коментарий"
+        rows="4"
+      ></textarea>
+      <div class="add-form-row">
+        <button id="publish-button" class="add-form-button">Написать</button>
+      </div>
+    </div>
+  `
+    let publishButton = document.getElementById('publish-button')
+
+    publishButton.addEventListener('click', (event) => {
+        event.stopPropagation()
+        let inputCommentField = document.querySelector('.add-form-text')
+        let addFormBlock = document.querySelector('.add-form')
+        inputCommentField.classList.remove('add-form-empty')
+        //inputNameComment.classList.remove('add-form-empty')
+        let commentToApi = {
+            //name: inputNameComment.value,
+            // we don't need specify the date. API does it anyway
+            //date: currentDateFormat,
+            text: replaceSymbols(inputCommentField.value),
+            //isliked: false,
+            //likes: 0,
+            //forceError: true,
+        }
+        loadCommentText.textContent = 'Комментарий публикуется...'
+        addFormBlock.before(loadCommentText)
+        addFormBlock.style.display = 'none'
+        postComment(commentToApi)
+    })
 }
